@@ -339,7 +339,7 @@ console.log(notPrivate); // 46!
 //////////////////////////////////////////////////////////////////
 ///////////////////////////CLOSURES///////////////////////////////
 //////////////////////////////////////////////////////////////////
-
+/*
 // We don't create closures manually like array or object, closures simply happens automatically
 const secureBooking = function () {
   let passengerCount = 0;
@@ -362,3 +362,74 @@ booker(); // 3 passengers
 // Variable environment attached to the function, exactly as it was at the time and place the function was created
 
 console.dir(booker);
+*/
+
+/*
+// First example
+let f;
+
+// Function f born inside of "g" first
+const g = function () {
+  const a = 23;
+
+  f = function () {
+    console.log(a * 2);
+  };
+};
+
+// Function f reborn in "h"
+const h = function () {
+  const b = 777;
+
+  f = function () {
+    // Re-assigning also closed over the variable environment of "h"
+    console.log(b * 2);
+  };
+};
+
+g();
+f(); // 777 * 2 = 1554
+console.dir(f); // [[Scopes]]: Scopes[3]; 0: Closure: a: 23
+
+// Re-assigning f function. If re-assign the function to a new value (777), then that old closure basically disappears!!!!!!!
+h();
+f(); // 46, "a" variable is inside the "backpack" of the f function!
+console.dir(f); // [[Scopes]]: Scopes[3]; 0: Closure: b: 777
+
+// CLOSURE ALWAYS MAKES SURE THAT A FUNCTION DOES NOT LOSE THE CONNECTION TO THE VARIABLES THAT WERE PRESENT AS ITS BIRTHPLACE
+
+// Second example
+// Timer
+const boardPassengeres = function (n, wait) {
+  const perGroup = n / 3;
+
+  setTimeout(function () {
+    // create callback function
+    console.log(`We are now boarding all ${n} passengers`);
+    console.log(`There are 3 groups, each with ${perGroup} passengeres`);
+  }, wait * 1000);
+
+  // this console.log will not wait these three seconds
+  console.log(`Will starts boarding in ${wait} seconds`);
+};
+
+// The closure in fact have priority over the scope chain
+const perGroup = 1000; // If we delete "const perGroup = n / 3;" We are now boarding all 180 passengers  /  There are 3 groups, each with 1000 passengeres
+
+boardPassengeres(180, 3); // We are now boarding all 180 passengers  /  There are 3 groups, each with 60 passengeres
+// boardPassengeres(240, 3);
+*/
+
+//////////////////////////////////////////////////////////////////
+//////////////////////CODING CHALLENGE #2/////////////////////////
+//////////////////////////////////////////////////////////////////
+
+(function () {
+  const header = document.querySelector('h1');
+  header.style.color = 'red';
+
+  // header is a "backpack" of callback function
+  document.querySelector('body').addEventListener('click', function () {
+    header.style.color = 'green';
+  });
+})();
