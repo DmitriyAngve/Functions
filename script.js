@@ -260,7 +260,7 @@ const addTaxRate = function (rate) {
 const addVAT2 = addTaxRate(0.23);
 console.log(addVAT2(23));
 */
-
+/*
 //////////////////////////////////////////////////////////////////
 //////////////////////CODING CHALLENGE #1/////////////////////////
 //////////////////////////////////////////////////////////////////
@@ -299,3 +299,66 @@ document
   .addEventListener('click', poll.rigesterNewAnswer.bind(poll));
 
 poll.displayResults.call({ answers: [5, 2, 3] }, 'string');
+*/
+
+//////////////////////////////////////////////////////////////////
+/////////////IMMEDIATELY INVOKED FUNCTION EXPRESSIONS/////////////
+//////////////////////////////////////////////////////////////////
+
+// IIFE used for hide variables from the global scope
+/*
+const ruOnce = function () {
+  console.log('This will never run again');
+};
+ruOnce();
+
+// With braces JS understands what it is just expression
+//IIFE
+(function () {
+  console.log('This will never run again');
+  const isPrivate = 23;
+})(); // () - at the end indicate that the function must be called immediately
+
+//console.log(isPrivate); // Error. Global scope does not have access to anything thats inside of the scope
+
+// Arrow function
+(() => console.log('This will ALSO never run again'))();
+
+// Functions create scopes. One scope does not have access to variables from an inner scope.
+
+// Block scope
+{
+  const isPrivate = 23;
+  var notPrivate = 46;
+}
+
+// console.log(isPrivate); // We can not access this variable
+console.log(notPrivate); // 46!
+*/
+
+//////////////////////////////////////////////////////////////////
+///////////////////////////CLOSURES///////////////////////////////
+//////////////////////////////////////////////////////////////////
+
+// We don't create closures manually like array or object, closures simply happens automatically
+const secureBooking = function () {
+  let passengerCount = 0;
+
+  return function () {
+    passengerCount++;
+    console.log(`${passengerCount} passengers`);
+  };
+};
+
+// booker - now function as well
+const booker = secureBooking();
+
+// Closure makes a function remember all the variables that existed at the function's birthplace
+booker(); // 1 passengers
+booker(); // 2 passengers
+booker(); // 3 passengers
+
+// Any function always has access to the variable environment of the execution context in which the function was created!!!!
+// Variable environment attached to the function, exactly as it was at the time and place the function was created
+
+console.dir(booker);
